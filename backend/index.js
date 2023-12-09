@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'tu_usuario_mysql',
-  password: 'tu_contraseña_mysql',
-  database: 'tu_base_de_datos',
+  user: 'root',
+  password: '12172328',
+  database: 'userlogin',
 });
 
 db.connect((err) => {
@@ -67,4 +67,17 @@ app.use((req, res) => {
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
+});
+
+
+const sql = 'SELECT * FROM users';
+db.query(sql, (err, results) => {
+  if (err) {
+    console.error('Error al realizar la consulta:', err);
+  } else {
+    console.log('Resultados de la consulta:', results);
+  }
+
+  // Cierra la conexión después de la consulta
+  db.end();
 });
