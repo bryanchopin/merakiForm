@@ -1,14 +1,15 @@
 import styles from "./inputEmail.module.css";
 import { useState } from "react";
 
-export default function EmailInput() {
+export default function EmailInput(setValue) {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
 
+
   const handleEmailChange = (e) => {
     const inputEmail = e.target.value;
-    setEmail(inputEmail);
-
+    setEmail(inputEmail)
+    setValue.setValue(inputEmail);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setIsValidEmail(inputEmail === "" || emailRegex.test(inputEmail));
   };

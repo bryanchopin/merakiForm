@@ -1,7 +1,13 @@
-const express = require("express");
+import express from 'express';
+import cors from 'cors';
+import mysql from 'mysql2';
+
 const app = express();
 const port = 3000;
-const mysql = require('mysql2');
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 const db = mysql.createConnection({
@@ -19,35 +25,12 @@ db.connect((err) => {
   }
 });
 
-// Middleware para manejar datos JSON en las solicitudes
-app.use(express.json());
-
-// Ruta de ejemplo
-app.get("/", (req, res) => {
-  res.send("¡Hola, mundo!");
-});
-
-// Ruta con parámetros
-app.get("/saludo/:nombre", (req, res) => {
-  const { nombre } = req.params;
-  res.send(`¡Hola, ${nombre}!`);
-});
-
-// Ruta para manejar solicitudes POST
-app.post("/mensaje", (req, res) => {
-  // const { mensaje } = req.body;
-  const mensaje = JSON.stringify(req.body);
-  console.log(req.body);
-  res.json({ respuesta: `Recibido: ${mensaje}` });
-  console.log(`${mensaje}`);
-});
-
-app.post("/logInUser", (req, res) => {
-
+app.post("/api/logInUser", (req, res) => {
   const { email, password } = req.body;
+  console.log("email: " + email);
+  console.log("password: " + password);
 
-  // Aquí puedes realizar la inserción en tu base de datos
-  const sql = 'INSERT INTO usuarios (email, password) VALUES (?, ?)';
+  const sql = 'INSERT INTO users (email, password) VALUES (?, ?)';
   db.query(sql, [email, password], (err, result) => {
     if (err) {
       console.error('Error al insertar en la base de datos:', err);
@@ -59,25 +42,41 @@ app.post("/logInUser", (req, res) => {
   });
 });
 
-// Manejo de rutas no encontradas
+app.get("/api/getUser", (req, res) => {
+  const sql = 'SELECT * FROM users';
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al realizar la consulta:', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    } else {
+      console.log('Consulta realizada correctamente');
+      res.status(200).json(result);
+    }
+  });
+});
+
+app.get("/api/getUser/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = 'SELECT * FROM users WHERE id = ?';
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Error al realizar la consulta:', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    } else {
+      console.log('Consulta realizada correctamente');
+      res.status(200).json(result);
+    }
+  });
+});
+
 app.use((req, res) => {
   res.status(404).send("Página no encontrada");
 });
 
-// Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
 
 
-const sql = 'SELECT * FROM users';
-db.query(sql, (err, results) => {
-  if (err) {
-    console.error('Error al realizar la consulta:', err);
-  } else {
-    console.log('Resultados de la consulta:', results);
-  }
 
-  // Cierra la conexión después de la consulta
-  db.end();
-});
+
