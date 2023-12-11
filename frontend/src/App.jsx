@@ -1,21 +1,28 @@
 import styles from "./app.module.css";
 import InputEmail from "../components/inputs/email/inputEmail";
 import InputPassword from "../components/inputs/password/inputPassword";
-import { UserLogin } from "../controller/userOperation"
+import { logInUser} from "../controller/userOperation"
 import { useState } from "react";
 
 export default function Home() {
-  const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("12172328");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (email === "" || password === "") {
-    //   alert("Please fill in all fields");
-    //   return;
-    // }
-    UserLogin("email@email.com", "12172328");
+    if (email === "" || password === "") {
+      alert("Please fill in all fields");
+      return;
+    }
+    console.log(email, password);
     console.log("submit");
+    const loginResult = await logInUser({ email, password });
+    if (loginResult) {
+      console.log("login success");
+    }
+    else{
+      alert("Incorrect email or password");
+    }
   };
 
   return (
@@ -26,16 +33,8 @@ export default function Home() {
             <div className={styles.titleContainer}></div>
             <div className={styles.form}>
               <form>
-                <InputEmail
-                  setValue={(prev) => {
-                    setEmail(prev);
-                  }}
-                />
-                <InputPassword
-                  setValue={(prev) => {
-                    setPassword(prev);
-                  }}
-                />
+                <InputEmail setValue={(prev) => { setEmail(prev); }}/>
+                <InputPassword setValue={(prev) => { setPassword(prev); }}/>
                 <div className={`${styles.formGroup} ${styles.displayFlex}`}>
                   <div className={styles.textContainer}>
                     <a href="/.">
