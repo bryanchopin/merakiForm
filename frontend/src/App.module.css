@@ -205,6 +205,8 @@ button {
   }
 
   .titleContainer{
+    height: 7em;
+    background-size: 80%;
     /* border: 10px solid blue; */
   }
 
@@ -213,9 +215,23 @@ button {
     justify-content: center;
     align-items: center;
     /* border: 10px solid blue; */
-    padding: 0;
-    margin: 0;
     display: flex;
+    height: auto;
+  }
+
+  .displayFlex{
+    height: auto;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    /* border: 10px solid blue; */
+    display: flex;
+  }
+
+  .displayFlex button{
+    /* margin-top: 1em; */
+    width: 270px;
+    height: 6em;  
   }
 
 }
