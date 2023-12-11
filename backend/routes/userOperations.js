@@ -44,7 +44,6 @@ export function getAllUsers(req, res) {
   });
 }
 
-
 export function logInUser(req, res) {
   const { email, password } = req.body;
   console.log("email: " + email);

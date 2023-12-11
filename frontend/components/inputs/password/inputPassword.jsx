@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './inputPassword.module.css';
 import { IoEye, IoEyeOff } from "react-icons/io5";
 

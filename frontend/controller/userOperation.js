@@ -40,4 +40,3 @@ export const createUser = async ({ email, password}) => {
       return false;
     }
   };
-  
