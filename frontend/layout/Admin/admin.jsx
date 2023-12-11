@@ -1,7 +1,7 @@
 import { useAuth } from "../../controller/AuthContext";
 
 export default function Admin() {
-  const { logout, isAuthenticated, setIsAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
 
   console.log("admin", isAuthenticated);
 

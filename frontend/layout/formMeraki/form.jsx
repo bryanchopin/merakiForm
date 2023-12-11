@@ -3,7 +3,7 @@ import InputEmail from "../../components/inputs/email/inputEmail";
 import InputPassword from "../../components/inputs/password/inputPassword";
 import { logInUser } from "../../controller/userOperation";
 import { useAuth } from "../../controller/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const AdminWindow = () => {
   const { logout } = useAuth();
@@ -19,6 +19,7 @@ export const AdminWindow = () => {
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorLogin, setErrorLogin] = useState(false);
   const { login, isAuthenticated } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -27,16 +28,26 @@ export default function Home() {
       alert("Please fill in all fields");
       return;
     }
-    console.log(email, password);
-    console.log("submit");
+
     const loginResult = await logInUser({ email, password });
     if (loginResult) {
-      console.log("login success");
       login();
+      setEmail("");
+      setPassword("");
     } else {
-      alert("Incorrect email or password");
+      setEmail("");
+      setPassword("");
+      setErrorLogin(true);
     }
   };
+
+  useEffect(() => {
+    if (errorLogin) {
+      setTimeout(() => {
+        setErrorLogin(false);
+      }, 3000);
+    }
+  }, [errorLogin]);
 
   return (
     <>
@@ -47,14 +58,16 @@ export default function Home() {
             <div className={styles.form}>
               <form>
                 <InputEmail
-                  setValue={(prev) => {
-                    setEmail(prev);
-                  }}
+                  email={email}
+                  setEmail={setEmail}
+                  stateLogin={errorLogin}
                 />
                 <InputPassword
-                  setValue={(prev) => {
-                    setPassword(prev);
-                  }}
+                  password={password}
+                  setPassword={setPassword}
+                  stateLogin={errorLogin}
+                  handleState={setErrorLogin}
+
                 />
                 <div className={`${styles.formGroup} ${styles.displayFlex}`}>
                   <div className={styles.textContainer}>
@@ -66,9 +79,11 @@ export default function Home() {
                     Sign in
                   </button>
                 </div>
-                <div className={styles.formGroup}>
-                  <p>Incorrect email or password</p>
-                </div>
+                {errorLogin && (
+                  <div className={`${styles.formGroup} ${styles.animationIn}`}>
+                    <p>Incorrect email or password</p>
+                  </div>
+                )}
               </form>
             </div>
           </article>

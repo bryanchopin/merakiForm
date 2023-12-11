@@ -1,10 +1,10 @@
 .formGroupValid {
+  margin-top: 2em;
   width: 270px;
   height: 50px;
   margin-bottom: 1em;
   border-radius: 10px;
   outline: none;
-  position: relative;
 }
 
 .formGroupValid input {
@@ -23,11 +23,11 @@
 }
 
 .formGroupValid input::placeholder {
-  padding-left: 0.5em;
   font-size: clamp(0.8em, 1.5vw, 1em);
 }
 
 .formGroupInvalid {
+  margin-top: 2em;
   width: 270px;
   height: 50px;
   margin-bottom: 2em;
@@ -36,16 +36,25 @@
   position: relative;
 }
 
-.formGroupInvalid p{
-  color: #FF1515;
-  font-size: 0.8em;
-  position: absolute;
-  bottom: -20px;
+.formGroupInvalidLogIn{
+  margin-top: 2em;
+  width: 270px;
+  height: 50px;
+  border-radius: 10px;
+  outline: none;
+  margin-bottom: 1em;
 }
 
-/* .errorText {
-  color: red;
-} */
+.formGroupInvalidLogIn input{
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1em;
+  border-radius: 10px;
+  border: 3px solid #FF5715;
+  outline: none;
+  padding-left: 0.5em;
+  font-size: clamp(0.8em, 1.5vw, 1em);
+}
 
 .formGroupInvalid input {
   width: 100%;
@@ -57,6 +66,15 @@
   padding-left: 0.5em;
   font-size: clamp(0.8em, 1.5vw, 1em);
 }
+
+.formGroupInvalid p{
+  color: #FF1515;
+  font-size: 0.8em;
+  position: absolute;
+  bottom: -20px;
+}
+
+
 
 
 
